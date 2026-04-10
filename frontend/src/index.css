@@ -10,6 +10,7 @@
   --accent-hover: #8266ff;
   --danger: #ff4757;
   --play-btn: rgba(107, 76, 255, 0.8);
+  --play-btn-opacity: 0.7;
 }
 
 * {
@@ -312,7 +313,7 @@ input:focus {
 }
 
 .game-card:hover .quick-play-overlay, .game-card.focused .quick-play-overlay {
-  opacity: 0.6;
+  opacity: var(--play-btn-opacity);
   transform: translate(-50%, -50%) scale(1);
 }
 
@@ -357,7 +358,7 @@ input:focus {
   border: none;
   box-shadow: 0 4px 15px rgba(0,0,0,0.3);
   backdrop-filter: blur(10px);
-  opacity: 0.6;
+  opacity: var(--play-btn-opacity);
 }
 
 .btn-play:hover {

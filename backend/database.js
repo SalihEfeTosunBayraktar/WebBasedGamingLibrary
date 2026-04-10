@@ -23,7 +23,8 @@ let data = {
         accentHover: '#8266ff',
         fontFamily: 'Inter',
         danger: '#ff4757',
-        playBtnColor: 'rgba(107, 76, 255, 0.8)'
+        playBtnColor: '#6b4cff',
+        playBtnOpacity: 0.7
     }
 };
 

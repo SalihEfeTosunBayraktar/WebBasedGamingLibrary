@@ -79,6 +79,7 @@ function App() {
       if(cfg.accent) root.style.setProperty('--accent', cfg.accent);
       if(cfg.accentHover) root.style.setProperty('--accent-hover', cfg.accentHover);
       if(cfg.playBtnColor) root.style.setProperty('--play-btn', cfg.playBtnColor);
+      if(cfg.playBtnOpacity !== undefined) root.style.setProperty('--play-btn-opacity', cfg.playBtnOpacity);
       if(cfg.fontFamily) document.body.style.fontFamily = `'${cfg.fontFamily}', -apple-system, BlinkMacSystemFont, sans-serif`;
       
       if(cfg.layout) {
@@ -783,12 +784,23 @@ function App() {
                            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'16px' }}>
                                {Object.keys(uiConfig).filter(k => k !== 'lastPickerPath' && k !== 'layout' && k !== 'steamGridApiKey' && k !== 'ignoredExes').map(key => (
                                    <div key={key} style={{ display:'flex', flexDirection:'column', gap:'8px' }}>
-                                       <label style={{ fontSize: '12px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>{key === 'playBtnColor' ? 'Oyna Butonu Rengi' : key}</label>
+                                       <label style={{ fontSize: '12px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+                                           {key === 'playBtnColor' ? 'Oyna Butonu Rengi' : key === 'playBtnOpacity' ? 'Oyna Butonu Şeffaflık' : key}
+                                       </label>
                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                           {key.startsWith('bg') || key.startsWith('accent') || key === 'danger' || key.toLowerCase().includes('play') ? (
-                                               <input type="color" value={uiConfig[key].startsWith('rgba') ? '#6b4cff' : (uiConfig[key].length === 7 ? uiConfig[key] : '#ffffff')} onChange={e => handleConfigChange(key, e.target.value)} style={{ padding: '0', width: '32px', height: '32px', border: 'none', background: 'transparent', cursor: 'pointer' }} />
-                                           ) : null}
-                                           <input value={uiConfig[key]} onChange={e => handleConfigChange(key, e.target.value)} style={{ flex: 1, fontFamily: 'monospace', fontSize: '12px' }} placeholder="HEX veya RGBA..." />
+                                           {key.toLowerCase().includes('color') || key.startsWith('bg') || key.startsWith('accent') || key === 'danger' ? (
+                                               <>
+                                                   <input type="color" value={uiConfig[key].startsWith('rgba') ? '#6b4cff' : (uiConfig[key].length === 7 ? uiConfig[key] : '#ffffff')} onChange={e => handleConfigChange(key, e.target.value)} style={{ padding: '0', width: '32px', height: '32px', border: 'none', background: 'transparent', cursor: 'pointer' }} />
+                                                   <input value={uiConfig[key]} onChange={e => handleConfigChange(key, e.target.value)} style={{ flex: 1, fontFamily: 'monospace', fontSize: '12px' }} placeholder="HEX veya RGBA..." />
+                                               </>
+                                           ) : key.toLowerCase().includes('opacity') ? (
+                                               <>
+                                                   <input type="range" min="0" max="1" step="0.05" value={uiConfig[key]} onChange={e => handleConfigChange(key, parseFloat(e.target.value))} style={{ flex: 1, height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px', accentColor: 'var(--accent)' }} />
+                                                   <span style={{ fontSize: '12px', minWidth: '40px', textAlign: 'right' }}>{Math.round(uiConfig[key] * 100)}%</span>
+                                               </>
+                                           ) : (
+                                               <input value={uiConfig[key]} onChange={e => handleConfigChange(key, e.target.value)} style={{ flex: 1, fontFamily: 'monospace', fontSize: '12px' }} />
+                                           )}
                                        </div>
                                    </div>
                                ))}
