@@ -1,9 +1,9 @@
 @echo off
-title WBGL Pro Launcher
+title WBGL
 color 0b
 echo =========================================
 echo    WebBasedGamingLibrary Baslatiliyor
-echo    (Tarayici otomatik acilmayacaktir)
+echo    
 echo =========================================
 echo.
 echo Sunucular baslatiliyor...

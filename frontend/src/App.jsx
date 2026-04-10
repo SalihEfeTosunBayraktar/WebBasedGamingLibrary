@@ -62,6 +62,7 @@ function App() {
   const [sgdbLoading, setSgdbLoading] = useState(false);
 
   const containerRef = useRef(null);
+  const sidebarRef = useRef(null);
 
   const filteredGames = games.filter(g => 
       g.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
@@ -434,7 +435,7 @@ function App() {
     onDown: () => {
       if (hasOpenModal()) { handleModalDirection(1); return; }
       if (isSidebarOpen) {
-          setSidebarFocusIndex(prev => (prev < groups.length ? prev + 1 : prev));
+          setSidebarFocusIndex(prev => (prev < groups.length + 1 ? prev + 1 : prev));
           return;
       }
       setFocusedIndex(prev => {
@@ -470,7 +471,8 @@ function App() {
       }
       if (isSidebarOpen) {
           if (sidebarFocusIndex === 0) setActiveGroupId(null);
-          else setActiveGroupId(groups[sidebarFocusIndex - 1].id);
+          else if (sidebarFocusIndex === 1) setActiveGroupId('uncategorized');
+          else setActiveGroupId(groups[sidebarFocusIndex - 2].id);
           setIsSidebarOpen(false);
           setFocusedIndex(0);
           return;
@@ -506,6 +508,15 @@ function App() {
      }
   }, [focusedIndex, layout]);
 
+  useEffect(() => {
+     if (isSidebarOpen && sidebarFocusIndex >= 0 && sidebarRef.current) {
+         const children = sidebarRef.current.children;
+         if (children[sidebarFocusIndex]) {
+             children[sidebarFocusIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+         }
+     }
+  }, [sidebarFocusIndex, isSidebarOpen]);
+
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(err => {});
     else if (document.exitFullscreen) document.exitFullscreen();
@@ -537,7 +548,7 @@ function App() {
             <span>Kategoriler</span>
          </div>
          
-         <div style={{ flex: 1, overflowY: 'auto' }}>
+         <div ref={sidebarRef} style={{ flex: 1, overflowY: 'auto' }}>
             <div 
                className={`sidebar-group-item ${activeGroupId === null ? 'active' : ''} ${sidebarFocusIndex === 0 && isSidebarOpen ? 'focused' : ''}`} 
                onClick={() => { setActiveGroupId(null); setIsSidebarOpen(false); }}
