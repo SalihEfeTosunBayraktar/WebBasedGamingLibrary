@@ -65,7 +65,7 @@ function App() {
 
   const filteredGames = games.filter(g => 
       g.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-      (activeGroupId === null || g.groupId === activeGroupId)
+      (activeGroupId === null ? true : (activeGroupId === 'uncategorized' ? !g.groupId : g.groupId === activeGroupId))
   );
 
   const applyUiConfig = (cfg) => {
@@ -548,16 +548,31 @@ function App() {
                <span style={{ fontSize:'12px', background:'rgba(255,255,255,0.1)', padding:'2px 8px', borderRadius:'12px' }}>{games.length}</span>
             </div>
 
+            <div 
+               className={`sidebar-group-item ${activeGroupId === 'uncategorized' ? 'active' : ''} ${sidebarFocusIndex === 1 && isSidebarOpen ? 'focused' : ''}`} 
+               onClick={() => { setActiveGroupId('uncategorized'); setIsSidebarOpen(false); }}
+            >
+               <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                   <Folder size={18} style={{ opacity: 0.5 }} /> Sınıflandırılmamış
+               </div>
+               <span style={{ fontSize:'12px', background:'rgba(255,255,255,0.1)', padding:'2px 8px', borderRadius:'12px' }}>{games.filter(g => !g.groupId).length}</span>
+            </div>
+
+            <div style={{ padding: '0 12px', margin: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}></div>
+
             {groups.map((g, idx) => (
                 <div 
                    key={g.id} 
-                   className={`sidebar-group-item ${activeGroupId === g.id ? 'active' : ''} ${sidebarFocusIndex === idx + 1 && isSidebarOpen ? 'focused' : ''}`} 
+                   className={`sidebar-group-item ${activeGroupId === g.id ? 'active' : ''} ${sidebarFocusIndex === idx + 2 && isSidebarOpen ? 'focused' : ''}`} 
                    onClick={() => { setActiveGroupId(g.id); setIsSidebarOpen(false); }}
                 >
                    <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
                        <Folder size={18} /> {g.name}
                    </div>
-                   <button className="btn" style={{ padding: '4px', background: 'transparent', border:'none', visibility: activeGroupId === g.id ? 'visible' : 'hidden' }} onClick={(e) => { e.stopPropagation(); deleteGroup(g.id); }}><X size={14} color="#ff4757"/></button>
+                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{ fontSize:'12px', background:'rgba(255,255,255,0.1)', padding:'2px 8px', borderRadius:'12px' }}>{games.filter(game => game.groupId === g.id).length}</span>
+                      <button className="btn" style={{ padding: '4px', background: 'transparent', border:'none', visibility: activeGroupId === g.id ? 'visible' : 'hidden' }} onClick={(e) => { e.stopPropagation(); deleteGroup(g.id); }}><X size={14} color="#ff4757"/></button>
+                   </div>
                 </div>
             ))}
          </div>
@@ -785,7 +800,7 @@ function App() {
                                {Object.keys(uiConfig).filter(k => k !== 'lastPickerPath' && k !== 'layout' && k !== 'steamGridApiKey' && k !== 'ignoredExes').map(key => (
                                    <div key={key} style={{ display:'flex', flexDirection:'column', gap:'8px' }}>
                                        <label style={{ fontSize: '12px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>
-                                           {key === 'playBtnColor' ? 'Oyna Butonu Rengi' : key === 'playBtnOpacity' ? 'Oyna Butonu Şeffaflık' : key}
+                                           {key === 'playBtnColor' ? 'Play Button Color' : key === 'playBtnOpacity' ? 'Opacity' : key}
                                        </label>
                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                                            {key.toLowerCase().includes('color') || key.startsWith('bg') || key.startsWith('accent') || key === 'danger' ? (
