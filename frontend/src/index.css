@@ -339,13 +339,13 @@ input:focus {
   border-radius: 12px;
   font-weight: 600;
   transition: all 0.2s ease;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--bg-input);
   color: var(--text-main);
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid var(--border-base);
 }
 
 .btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--border-base);
   transform: translateY(-2px);
 }
 
@@ -378,7 +378,7 @@ input:focus {
 .modal-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: var(--overlay-bg);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;

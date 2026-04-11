@@ -1,6 +1,24 @@
+# Dependencies
 node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# User data (not tracked — generated at runtime)
 backend/data/
 backend/covers/
+
+# Build output
 frontend/dist/
+
+# Environment secrets
 .env
+*.env.local
+
+# OS / editor
 .DS_Store
+Thumbs.db
+.vscode/settings.json
+
+# Misc
+replace_script.js
+*.log

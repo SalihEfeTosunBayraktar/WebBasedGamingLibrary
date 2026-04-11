@@ -37,16 +37,16 @@ export default function TopBar({
     return (
         <div style={{
             display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-            background: 'rgba(0,0,0,0.35)', padding: '14px 24px',
+            background: 'var(--bg-panel)', padding: '14px 24px',
             margin: '0 -32px 32px -32px',
             backdropFilter: 'blur(14px)',
-            borderBottom: '1px solid rgba(255,255,255,0.06)',
+            borderBottom: '1px solid var(--border-subtle)',
             zIndex: 10, position: 'sticky', top: 0,
         }}>
             {/* Left */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <button id="btn-open-sidebar" className="btn" onClick={onOpenSidebar}
-                    style={{ padding: '8px', background: 'rgba(255,255,255,0.05)', border: 'none', borderRadius: '10px' }}
+                    style={{ padding: '8px', background: 'var(--bg-input)', border: '1px solid var(--border-subtle)', borderRadius: '10px' }}
                     title={t('topbar.categories')}>
                     <LayoutGrid size={18} />
                 </button>
@@ -55,14 +55,14 @@ export default function TopBar({
                     {t('topbar.title')}
                 </h2>
 
-                <div style={{ width: '1px', height: '24px', background: 'rgba(255,255,255,0.08)' }} />
+                <div style={{ width: '1px', height: '24px', background: 'var(--border-base)' }} />
 
-                <div style={{ display: 'flex', background: 'rgba(255,255,255,0.05)', borderRadius: '10px', padding: '3px' }}>
+                <div style={{ display: 'flex', background: 'var(--bg-input)', border: '1px solid var(--border-subtle)', borderRadius: '10px', padding: '3px' }}>
                     <button id="btn-scan-folder" className="btn" onClick={() => onOpenFolderPicker('folder')} disabled={isScanning}
                         style={{ padding: '6px 12px', background: 'transparent', border: 'none', fontSize: '13px', borderRadius: '8px' }}>
                         <FolderPlus size={15} /> {isScanning ? t('topbar.scanning') : t('topbar.addFolder')}
                     </button>
-                    <div style={{ width: '1px', background: 'rgba(255,255,255,0.08)', margin: '4px 2px' }} />
+                    <div style={{ width: '1px', background: 'var(--border-subtle)', margin: '4px 2px' }} />
                     <button id="btn-add-manual" className="btn" onClick={() => onOpenFolderPicker('file')}
                         style={{ padding: '6px 12px', background: 'transparent', border: 'none', fontSize: '13px', borderRadius: '8px' }}>
                         <File size={15} /> {t('topbar.addManual')}
@@ -86,10 +86,10 @@ export default function TopBar({
                     {showSortMenu && (
                         <div style={{
                             position: 'absolute', top: 'calc(100% + 8px)', right: 0,
-                            background: 'rgba(20,22,30,0.97)', backdropFilter: 'blur(12px)',
-                            border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px',
+                            background: 'var(--bg-surface)', backdropFilter: 'blur(12px)',
+                            border: '1px solid var(--border-base)', borderRadius: '12px',
                             padding: '6px', minWidth: '186px', zIndex: 500,
-                            boxShadow: '0 16px 40px rgba(0,0,0,0.6)',
+                            boxShadow: '0 16px 40px var(--overlay-bg)',
                         }}>
                             {SORT_OPTIONS.map(opt => (
                                 <div key={opt.key} onClick={() => { setSortKey(opt.key); setShowSortMenu(false); }}
@@ -109,14 +109,14 @@ export default function TopBar({
                 </div>
 
                 {/* Layout switcher */}
-                <div style={{ display: 'flex', background: 'rgba(255,255,255,0.05)', borderRadius: '10px', padding: '3px' }}>
+                <div style={{ display: 'flex', background: 'var(--bg-input)', border: '1px solid var(--border-subtle)', borderRadius: '10px', padding: '3px' }}>
                     {[
                         { key: 'grid', icon: <LayoutGrid size={17} />, title: t('topbar.layoutGrid') },
                         { key: 'wide', icon: <List size={17} />,       title: t('topbar.layoutList') },
                         { key: 'ps',   icon: <MonitorPlay size={17} />, title: t('topbar.layoutConsole') },
                     ].map(({ key, icon, title }) => (
                         <button key={key} id={`btn-layout-${key}`} className="btn" title={title}
-                            style={{ padding: '6px', border: 'none', borderRadius: '8px', background: layout === key ? 'rgba(255,255,255,0.12)' : 'transparent' }}
+                            style={{ padding: '6px', border: 'none', borderRadius: '8px', background: layout === key ? 'var(--accent)' : 'transparent', color: layout === key ? '#fff' : 'var(--text-muted)' }}
                             onClick={() => changeLayout(key)}>
                             {icon}
                         </button>

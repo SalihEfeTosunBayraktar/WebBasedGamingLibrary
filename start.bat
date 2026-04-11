@@ -1,20 +1,17 @@
 @echo off
-title WBGL
+title Web-Based Gaming Library
 color 0b
-echo =========================================
-echo    WebBasedGamingLibrary Baslatiliyor
-echo =========================================
 echo.
-echo Sunucular baslatiliyor...
+echo  ==========================================
+echo    WEB-BASED GAMING LIBRARY  v2.0
+echo  ==========================================
+echo.
+echo  Baslatiyor... (Ctrl+C ile kapat)
+echo.
 
-:: Launch both Node and Vite together
-echo =========================================
-echo    Web Sunucusu Suan Calisiyor verilen Adrese Giderek Oyunlarini Yonetebilirsin.
-echo =========================================
-call npx -y concurrently --kill-others --names "BACKEND,FRONTEND" -c "blue,magenta" "cd backend && node index.js" "cd frontend && npm run dev"
+:: Root package.json üzerinden başlat
+call npm run dev
 
-echo Sistem basariyla kapatildi.
-
-
-
+echo.
+echo  Sistem kapatildi.
 pause > nul

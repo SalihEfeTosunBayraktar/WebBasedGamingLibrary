@@ -52,11 +52,11 @@ export default function SettingsModal({
                 style={{
                     width: 'min(760px, 95vw)', maxHeight: '88vh', borderRadius: '20px',
                     display: 'flex', flexDirection: 'column', overflow: 'hidden',
-                    boxShadow: '0 30px 80px rgba(0,0,0,0.7)',
+                    boxShadow: '0 30px 80px var(--overlay-bg)',
                 }}
             >
                 {/* Header */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 28px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 28px', borderBottom: '1px solid var(--border-subtle)' }}>
                     <h2 style={{ margin: 0, fontSize: '20px' }}>{t('settings.title')}</h2>
                     <button className="modal-close" style={{ position: 'static' }} onClick={onClose}>
                         <X size={20} />
@@ -64,7 +64,7 @@ export default function SettingsModal({
                 </div>
 
                 {/* Tab bar */}
-                <div style={{ display: 'flex', padding: '0 28px', borderBottom: '1px solid rgba(255,255,255,0.06)', background: 'rgba(0,0,0,0.15)' }}>
+                <div style={{ display: 'flex', padding: '0 28px', borderBottom: '1px solid var(--border-subtle)', background: 'var(--bg-panel)' }}>
                     {TABS.map(tab => (
                         <TabButton
                             key={tab.key}
@@ -104,7 +104,7 @@ export default function SettingsModal({
                 </div>
 
                 {/* Footer */}
-                <div style={{ padding: '16px 28px', borderTop: '1px solid rgba(255,255,255,0.06)', background: 'rgba(0,0,0,0.15)' }}>
+                <div style={{ padding: '16px 28px', borderTop: '1px solid var(--border-subtle)', background: 'var(--bg-panel)' }}>
                     <button id="btn-save-settings" className="btn btn-primary" style={{ width: '100%' }} onClick={onSave}>
                         <Check size={17} /> {t('settings.saveBtn')}
                     </button>
