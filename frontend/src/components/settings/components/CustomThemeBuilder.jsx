@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Download, Upload, Save, RefreshCw } from 'lucide-react';
-import { THEME_COLOR_FIELDS, FONT_OPTIONS } from '../themePresets.js';
+import { THEME_COLOR_FIELDS } from '../themePresets.js';
 import Section from './Section.jsx';
 import { useLocale } from '../../../i18n/LocaleContext.jsx';
 
@@ -90,28 +90,6 @@ export default function CustomThemeBuilder({ currentConfig, onApply }) {
                         value={draft[key] || '#000000'}
                         onChange={v => { updateField(key, v); previewField(key, v); }}
                     />
-                ))}
-            </div>
-
-            {/* Opacity */}
-            <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '10px' }}>
-                <span style={{ fontSize: '12px', color: 'var(--text-muted)', width: '110px', flexShrink: 0 }}>{t('themeBuilder.playOpacity')}</span>
-                <input type="range" min="0" max="1" step="0.05" value={draft.playBtnOpacity ?? 0.75}
-                    onChange={e => updateField('playBtnOpacity', parseFloat(e.target.value))}
-                    style={{ flex: 1, accentColor: 'var(--accent)' }} />
-                <span style={{ fontSize: '13px', minWidth: '38px', textAlign: 'right', fontWeight: 600 }}>
-                    {Math.round((draft.playBtnOpacity ?? 0.75) * 100)}%
-                </span>
-            </div>
-
-            {/* Fonts */}
-            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                {FONT_OPTIONS.map(f => (
-                    <button key={f} className="btn"
-                        style={{ fontSize: '12px', padding: '5px 12px', border: 'none', fontFamily: `'${f}', sans-serif`, background: draft.fontFamily === f ? 'var(--accent)' : 'rgba(255,255,255,0.05)' }}
-                        onClick={() => updateField('fontFamily', f)}>
-                        {f}
-                    </button>
                 ))}
             </div>
         </Section>
