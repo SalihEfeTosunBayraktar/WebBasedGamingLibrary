@@ -23,7 +23,7 @@ export default function Sidebar({ isOpen, onClose, groups, games, activeGroupId,
                         isActive={activeGroupId === 'uncategorized'} isFocused={focusIndex === 1 && isOpen}
                         onClick={() => { setActiveGroupId('uncategorized'); onClose(); }} />
 
-                    <div style={{ margin: '10px 12px', borderBottom: '1px solid rgba(255,255,255,0.05)' }} />
+                    <div style={{ margin: '10px 12px', borderBottom: '1px solid var(--border-subtle)' }} />
 
                     {groups.map((g, idx) => (
                         <SidebarItem key={g.id} icon={<Folder size={17} />} label={g.name}
@@ -34,7 +34,7 @@ export default function Sidebar({ isOpen, onClose, groups, games, activeGroupId,
                     ))}
                 </div>
 
-                <button className="btn" style={{ marginTop: '16px', background: 'rgba(255,255,255,0.05)', width: '100%' }} onClick={onAddGroup}>
+                <button className="btn" style={{ marginTop: '16px', background: 'var(--bg-input)', border: '1px solid var(--border-subtle)', width: '100%' }} onClick={onAddGroup}>
                     {t('sidebar.addCategory')}
                 </button>
             </div>
@@ -47,7 +47,7 @@ function SidebarItem({ icon, label, count, isActive, isFocused, onClick, onDelet
         <div className={`sidebar-group-item ${isActive ? 'active' : ''} ${isFocused ? 'focused' : ''}`} onClick={onClick}>
             <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>{icon} {label}</div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ fontSize: '12px', background: 'rgba(255,255,255,0.1)', padding: '2px 8px', borderRadius: '12px' }}>{count}</span>
+                <span style={{ fontSize: '12px', background: 'var(--bg-input)', padding: '2px 8px', borderRadius: '12px', border: '1px solid var(--border-subtle)' }}>{count}</span>
                 {onDelete && showDelete && (
                     <button className="btn" style={{ padding: '3px', background: 'transparent', border: 'none' }}
                         onClick={e => { e.stopPropagation(); onDelete(); }}>

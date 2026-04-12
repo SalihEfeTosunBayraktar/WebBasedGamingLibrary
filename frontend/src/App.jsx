@@ -123,8 +123,19 @@ export default function App() {
         const root = document.documentElement;
         const set = (k, v) => { if (v !== undefined) root.style.setProperty(k, v); };
 
+        const hexToRgb = (hex) => {
+            if (!hex || !hex.startsWith('#')) return null;
+            const r = parseInt(hex.slice(1, 3), 16);
+            const g = parseInt(hex.slice(3, 5), 16);
+            const b = parseInt(hex.slice(5, 7), 16);
+            return `${r}, ${g}, ${b}`;
+        };
+
         // Core color tokens
         set('--bg-dark',      cfg.bgDark);
+        const rgb = hexToRgb(cfg.bgDark);
+        if (rgb) set('--bg-dark-rgb', rgb);
+
         set('--bg-card',      cfg.bgCard);
         set('--bg-card-hover',cfg.bgCardHover);
         set('--text-main',    cfg.textMain);
@@ -593,10 +604,10 @@ export default function App() {
 
                 {/* PS mode gamepad hints */}
                 {layout === 'ps' && filteredGames.length > 0 && (
-                    <div style={{ marginTop: 'auto', display: 'flex', gap: '24px', justifyContent: 'center', opacity: 0.65, padding: '16px' }}>
+                    <div style={{ marginTop: 'auto', display: 'flex', gap: '24px', justifyContent: 'center', opacity: 0.8, padding: '20px', background: 'var(--bg-panel)', borderTop: '1px solid var(--border-subtle)', backdropFilter: 'blur(10px)' }}>
                         {[['A', t('hints.play')], ['Y', t('hints.details')], ['LB', t('hints.categories')], ['RB', t('hints.sorting')]].map(([btn, lbl]) => (
-                            <span key={btn} style={{ display: 'flex', alignItems: 'center', gap: '7px', fontSize: '13px' }}>
-                                <span style={{ background: '#fff', color: '#000', borderRadius: '50%', width: '22px', height: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 800 }}>{btn}</span>
+                            <span key={btn} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', fontWeight: 500, color: 'var(--text-main)' }}>
+                                <span style={{ background: 'var(--accent)', color: '#fff', borderRadius: '50%', width: '24px', height: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 800, boxShadow: '0 2px 8px rgba(0,0,0,0.2)' }}>{btn}</span>
                                 {lbl}
                             </span>
                         ))}

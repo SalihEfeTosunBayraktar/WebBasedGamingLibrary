@@ -99,7 +99,7 @@ export default function TopBar({
                                         color: sortKey === opt.key ? 'var(--accent)' : 'var(--text-main)',
                                         background: sortKey === opt.key ? 'rgba(107,76,255,0.12)' : 'transparent',
                                     }}
-                                    onMouseEnter={e => { if (sortKey !== opt.key) e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; }}
+                                    onMouseEnter={e => { if (sortKey !== opt.key) e.currentTarget.style.background = 'var(--bg-input)'; }}
                                     onMouseLeave={e => { if (sortKey !== opt.key) e.currentTarget.style.background = 'transparent'; }}>
                                     {opt.label}
                                 </div>
