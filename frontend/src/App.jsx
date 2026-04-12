@@ -81,18 +81,20 @@ export default function App() {
     const pickerItemCount = folderList.length + (pickerMode === 'file' ? fileList.length : 0);
 
     /**
-     * Compute actual column count by comparing the Y positions of rendered cards.
-     * This works regardless of CSS grid configuration or browser differences.
+     * Compute actual column count using offsetTop of game cards.
+     * containerRef.current IS the game-grid div; its children are cards in DOM order.
+     * offsetTop is not affected by scroll position – same-row cards have identical values.
      */
     const getColCount = () => {
         if (layout === 'wide') return 1;
         if (layout === 'ps') return 0;
-        const cards = document.querySelectorAll('[data-game-index]');
-        if (!cards || cards.length < 2) return 1;
-        const firstTop = cards[0].getBoundingClientRect().top;
+        if (!containerRef.current) return 1;
+        const children = Array.from(containerRef.current.children);
+        if (children.length < 2) return 1;
+        const firstTop = children[0].offsetTop;
         let cols = 0;
-        for (const card of cards) {
-            if (Math.abs(card.getBoundingClientRect().top - firstTop) < 10) cols++;
+        for (const child of children) {
+            if (child.offsetTop === firstTop) cols++;
             else break;
         }
         return Math.max(1, cols);
