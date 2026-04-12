@@ -4,6 +4,7 @@
  * Remaining: game CRUD, groups, settings, fullscreen.
  */
 import { useLocale } from '../i18n/LocaleContext.jsx';
+import { useDialog } from '../context/DialogContext.jsx';
 import {
     fetchGames, updateGame, deleteGame as apiDeleteGame,
     launchGame as apiLaunchGame,
@@ -16,6 +17,7 @@ import { useMediaActions } from './useMediaActions.js';
 
 export function useAppActions({ state }) {
     const { t } = useLocale();
+    const { confirm, prompt } = useDialog();
     const {
         showToast, applyUiConfig, uiConfig,
         setGames, setGroups, setActiveGroupId,
@@ -42,7 +44,7 @@ export function useAppActions({ state }) {
     };
 
     const removeGame = async (id) => {
-        if (!confirm(t('gameView.confirmRemove'))) return;
+        if (!await confirm(t('gameView.confirmRemove'))) return;
         await apiDeleteGame(id);
         setSelectedGame(null);
         await refreshGames();
@@ -59,7 +61,7 @@ export function useAppActions({ state }) {
 
     // ── Groups ────────────────────────────────────────────────────────────────
     const addGroup = async () => {
-        const name = prompt(t('sidebar.newCategoryPrompt'));
+        const name = await prompt(t('sidebar.newCategoryPrompt'));
         if (!name) return;
         const newGroup = await apiCreateGroup(name);
         setGroups(prev => [...prev, newGroup]);
@@ -67,7 +69,7 @@ export function useAppActions({ state }) {
     };
 
     const removeGroup = async (id) => {
-        if (!confirm(t('sidebar.confirmDelete'))) return;
+        if (!await confirm(t('sidebar.confirmDelete'))) return;
         await apiDeleteGroup(id);
         setActiveGroupId(prev => prev === id ? null : prev);
         setGroups(prev => prev.filter(g => g.id !== id));

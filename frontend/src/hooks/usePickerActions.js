@@ -2,6 +2,7 @@
  * usePickerActions.js — Folder picker navigation and scan trigger handlers.
  */
 import { useLocale } from '../i18n/LocaleContext.jsx';
+import { useDialog } from '../context/DialogContext.jsx';
 import {
     fetchDrives, fetchDirectory,
     scanFolder as apiScanFolder, rescanAll as apiRescanAll,
@@ -10,6 +11,7 @@ import {
 
 export function usePickerActions({ state, refreshGames }) {
     const { t } = useLocale();
+    const { prompt } = useDialog();
     const {
         showToast, uiConfig, setUiConfig,
         pickerMode, currentPath, setCurrentPath,
@@ -60,7 +62,7 @@ export function usePickerActions({ state, refreshGames }) {
         setShowFolderPicker(false);
         persistPickerPath();
         const clean = fileName.replace('.exe', '').replace(/[-_.]/g, ' ').replace(/\s+/g, ' ').trim().toUpperCase();
-        const gameName = prompt(t('gameEdit.gameName') + ':', clean);
+        const gameName = await prompt(t('gameEdit.gameName') + ':', clean);
         if (!gameName) return;
         try {
             showToast(t('toast.addingGame'));

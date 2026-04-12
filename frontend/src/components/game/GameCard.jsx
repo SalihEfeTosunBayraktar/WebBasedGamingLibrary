@@ -1,15 +1,20 @@
 import React from 'react';
 import { Play } from 'lucide-react';
 import { COVERS_BASE } from '../../api/api.js';
+import { useLocale } from '../../i18n/LocaleContext.jsx';
 
 export default function GameCard({ game, index, focusedIndex, layout, onOpen, onPlay }) {
     const isFocused = focusedIndex === index;
+    const { t } = useLocale();
+
+    const lastPlayedLabel = game.lastPlayed
+        ? `${t('card.lastPlayed')}: ${new Date(game.lastPlayed).toLocaleDateString()}`
+        : t('card.newlyAdded');
 
     return (
         <div
             className={`game-card ${isFocused ? 'focused' : ''}`}
             onMouseEnter={() => {
-                // Communicate focus up via a custom event to avoid prop drilling
                 const event = new CustomEvent('gamehover', { detail: { index } });
                 document.dispatchEvent(event);
             }}
@@ -41,9 +46,7 @@ export default function GameCard({ game, index, focusedIndex, layout, onOpen, on
             <div className="game-card-overlay">
                 <div className="game-title">{game.name}</div>
                 <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.65)', marginTop: '3px' }}>
-                    {game.lastPlayed
-                        ? `Son: ${new Date(game.lastPlayed).toLocaleDateString('tr-TR')}`
-                        : 'Yeni Eklendi'}
+                    {lastPlayedLabel}
                 </div>
             </div>
         </div>
