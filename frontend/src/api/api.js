@@ -26,13 +26,13 @@ export const createGroup = (name) => axios.post(`${API_BASE}/groups`, { name }).
 export const deleteGroup = (id) => axios.delete(`${API_BASE}/groups/${id}`).then(r => r.data);
 
 // Scan folders
-export const fetchScanFolders = () => axios.get(`${API_BASE}/scan-folders`).then(r => r.data);
+export const fetchScanFolders = () => axios.get(`${API_BASE}/scan/folders`).then(r => r.data);
 export const removeScanFolder = (folderPath) =>
-    axios.delete(`${API_BASE}/scan-folders`, { data: { folderPath } }).then(r => r.data);
+    axios.delete(`${API_BASE}/scan/folders`, { data: { folderPath } }).then(r => r.data);
 
 // Scan
 export const scanFolder = (folderPath) => axios.post(`${API_BASE}/scan`, { folderPath }).then(r => r.data);
-export const rescanAll = () => axios.post(`${API_BASE}/rescan-all`).then(r => r.data);
+export const rescanAll = () => axios.post(`${API_BASE}/scan/rescan-all`).then(r => r.data);
 
 // File system browser
 export const fetchDrives = () => axios.get(`${API_BASE}/drives`).then(r => r.data);

@@ -1,0 +1,102 @@
+/* layout.css — App shell, sidebar, main content, topbar, brand */
+
+.app-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 32px 32px 32px;
+}
+
+.brand {
+  font-size: 24px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff, #a1a3af);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Collapsible Sidebar Overlay */
+.sidebar-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 900;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.sidebar-overlay.open { opacity: 1; pointer-events: auto; }
+
+/* Collapsible Sidebar Drawer */
+.collapsible-sidebar {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: 300px;
+  background: rgba(15,17,24, 0.95);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  box-shadow: 20px 0 50px rgba(0,0,0,0.5);
+  border-right: 1px solid rgba(255,255,255,0.05);
+}
+.collapsible-sidebar.open { transform: translateX(0); }
+
+.sidebar-group-item {
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--text-muted);
+}
+.sidebar-group-item:hover  { background: rgba(255,255,255,0.05); color: #fff; }
+.sidebar-group-item.active { background: var(--accent); color: #fff; font-weight: bold; }
+.sidebar-group-item.focused {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  outline: 2px solid #fff;
+  outline-offset: -2px;
+}
+
+/* Empty state (no games) */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  opacity: 0.7;
+  gap: 16px;
+}
+.empty-state svg { width: 64px; height: 64px; opacity: 0.5; }
+
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 16px 24px;
+  background: var(--accent);
+  color: white;
+  border-radius: 12px;
+  font-weight: 600;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  animation: toastSlide 3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}

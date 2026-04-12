@@ -1,0 +1,50 @@
+/* modals.css — Modal overlay, game detail modal, modal-close, gamepad focus */
+
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--overlay-bg);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+  width: 90%; max-width: 900px; height: 80vh;
+  border-radius: 20px; overflow: hidden;
+  display: flex; position: relative;
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-close {
+  position: absolute; top: 20px; right: 20px;
+  background: rgba(0,0,0,0.5);
+  border-radius: 50%; width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  color: white; z-index: 10; transition: background 0.2s;
+}
+.modal-close:hover { background: rgba(255,255,255,0.2); }
+
+.game-detail-cover  { width: 35%; object-fit: cover; }
+
+.game-detail-info {
+  flex: 1; padding: 40px;
+  display: flex; flex-direction: column;
+  background: rgba(20,22,30,0.95);
+  overflow-y: auto;
+}
+
+/* Gamepad focus ring inside modals */
+.modal-overlay *:focus,
+.modal-overlay *:focus-visible {
+  outline: 3px solid var(--accent) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 15px var(--accent) !important;
+  border-radius: 6px;
+}
+
+/* Settings modal tabindex helper */
+.settings-modal [tabindex="0"] { position: relative; }
