@@ -188,47 +188,6 @@ app.delete('/api/scan-folders', (req, res) => {
     res.json({ success: true, folders: data.scanFolders });
 });
 
-async function performScan(folderPath) {
-    const found = scanFolderForGames(folderPath);
-    let addedCount = 0;
-
-    for (const f of found) {
-        const exists = db.getDb().games.find(g => g.path === f.path && g.exe === f.exe);
-        if (!exists) {
-            let localCover = null;
-            let localHero = null;
-
-            const apiKey = db.getDb().uiConfig?.steamGridApiKey;
-            if (apiKey) {
-                const searchRes = await searchSteamGridDB(f.name, apiKey);
-                if (searchRes && searchRes.length > 0) {
-                    const gameId = searchRes[0].id;
-                    const images = await getSteamGridImages(gameId, apiKey);
-                    
-                    if (images.grids && images.grids.length > 0) {
-                        localCover = await downloadCover(images.grids[0].url);
-                    }
-                    if (images.heroes && images.heroes.length > 0) {
-                        localHero = await downloadCover(images.heroes[0].url);
-                    }
-                }
-            }
-
-            db.getDb().games.push({
-                id: generateId(),
-                name: f.name,
-                path: f.path,
-                exe: f.exe,
-                cover: localCover,
-                hero: localHero,
-                addedAt: new Date().toISOString(),
-                lastPlayed: null
-            });
-            addedCount++;
-        }
-    }
-    return addedCount;
-}
 
 // Group Endpoints
 app.get('/api/groups', (req, res) => {
