@@ -44,11 +44,27 @@ export function useGamepad(callbacks) {
             }
           };
 
-          fire('DPAD_UP',    'onUp');
-          fire('DPAD_DOWN',  'onDown');
-          fire('DPAD_LEFT',  'onLeft');
-          fire('DPAD_RIGHT', 'onRight');
-          fire('A',          'onSelect');
+          const A_HOLD_MS = 600;
+
+          // ── A button: short press = select/details, hold = quick launch ────────
+          const isAPressed = isPressed(BUTTONS.A);
+          if (isAPressed && !lastState.current['A']) {
+              lastState.current['A'] = true;
+              lastState.current['aPressSince'] = Date.now();
+              lastState.current['aHeld'] = false;
+          }
+          if (isAPressed && lastState.current['A'] && !lastState.current['aHeld']) {
+              if (Date.now() - (lastState.current['aPressSince'] || 0) >= A_HOLD_MS) {
+                  lastState.current['aHeld'] = true;
+                  cbRef.current['onHoldA']?.();
+              }
+          }
+          if (!isAPressed && lastState.current['A']) {
+              lastState.current['A'] = false;
+              if (!lastState.current['aHeld']) cbRef.current['onSelect']?.();
+              lastState.current['aHeld'] = false;
+          }
+
           fire('B',          'onBack');
           fire('Y',          'onOptions');
           fire('X',          'onX');

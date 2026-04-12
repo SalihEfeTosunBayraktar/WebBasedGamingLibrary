@@ -14,6 +14,7 @@ import { COVERS_BASE } from './api/api.js';
 
 import TopBar from './components/layout/TopBar.jsx';
 import Sidebar from './components/layout/Sidebar.jsx';
+import HeroBackground from './components/layout/HeroBackground.jsx';
 import GameGrid from './components/game/GameGrid.jsx';
 import GameModal from './components/game/GameModal.jsx';
 import SettingsModal from './components/settings/SettingsModal.jsx';
@@ -136,6 +137,10 @@ export default function App() {
                 else setActiveGroupId(groups[sidebarFocusIndex-2]?.id);
                 setIsSidebarOpen(false); setFocusedIndex(0); return;
             }
+            if (filteredGames[focusedIndex]) setSelectedGame(filteredGames[focusedIndex]);
+        },
+        onHoldA: () => {
+            if (hasModal() || isSidebarOpen) return;
             if (filteredGames[focusedIndex]) playGame(filteredGames[focusedIndex].id);
         },
         onOptions: () => { if (!hasModal()&&!isSidebarOpen) { const g=filteredGames[focusedIndex]; if (g) setSelectedGame(g); } },
@@ -157,7 +162,7 @@ export default function App() {
 
     return (
         <div className="app-container">
-            {layout === 'ps' && <div className="hero-background" style={{ backgroundImage: focusedHero }} />}
+            {layout === 'ps' && <HeroBackground src={focusedHero} />}
 
             <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)}
                 groups={groups} games={games} activeGroupId={activeGroupId}
@@ -178,7 +183,7 @@ export default function App() {
 
                 {layout === 'ps' && filteredGames.length > 0 && (
                     <div style={{ marginTop:'auto', display:'flex', gap:'24px', justifyContent:'center', padding:'20px', background:'var(--bg-panel)', borderTop:'1px solid var(--border-subtle)', backdropFilter:'blur(10px)' }}>
-                        {[['A',t('hints.play')],['Y',t('hints.details')],['LB',t('hints.categories')],['RB',t('hints.sorting')]].map(([btn,lbl]) => (
+                        {[['A',t('hints.details')],['A●',t('hints.play')],['LB',t('hints.categories')],['RB',t('hints.sorting')]].map(([btn,lbl]) => (
                             <span key={btn} style={{ display:'flex', alignItems:'center', gap:'8px', fontSize:'13px', fontWeight:500, color:'var(--text-main)' }}>
                                 <span style={{ background:'var(--accent)', color:'#fff', borderRadius:'50%', width:'24px', height:'24px', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'12px', fontWeight:800 }}>{btn}</span>
                                 {lbl}
