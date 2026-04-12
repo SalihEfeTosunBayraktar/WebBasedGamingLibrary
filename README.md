@@ -1,8 +1,7 @@
 # 🎮 Web-Based Gaming Library (WBGL)
 
-A self-hosted, beautiful game library manager that runs in your browser. Organize, launch, and discover your PC games with full gamepad support.
-
-![WBGL Screenshot](docs/screenshot.png)
+A self-hosted, beautiful game library manager that runs in your browser.
+Organize, launch, and discover your PC games with full gamepad support.
 
 ---
 
@@ -25,34 +24,20 @@ A self-hosted, beautiful game library manager that runs in your browser. Organiz
 
 ### Prerequisites
 - [Node.js](https://nodejs.org/) **v18 or later**
-- Windows (for game launching via `.exe`)
+- Windows (game launching via `.exe` requires Windows)
 
 ### 1 — Clone
 ```bash
-git clone https://github.com/YOUR_USERNAME/WebBasedGamingLibrary.git
+git clone https://github.com/Legendnoobe/WebBasedGamingLibrary.git
 cd WebBasedGamingLibrary
 ```
 
-### 2 — Setup Environment
-Copy the example environment file and fill in your values (like SteamGridDB API key):
-```bash
-cp .env.example .env
-```
-
-### 3 — Choose your way
-
-#### Option A: Docker (Recommended)
-Run everything in a isolated container with one command:
-```bash
-docker-compose up -d
-```
-
-#### Option B: Normal Installation
-1. Install all dependencies:
+### 2 — Install dependencies
 ```bash
 npm run install:all
 ```
-2. Run the development servers:
+
+### 3 — Run
 ```bash
 npm run dev
 ```
@@ -62,6 +47,9 @@ Then open **http://localhost:5173** in your browser.
 > **Backend API** runs on port **3001**.  
 > **Frontend dev server** runs on port **5173**.
 
+### Windows one-click launcher
+Double-click **`start.bat`** — installs and starts everything automatically.
+
 ---
 
 ## 📁 Project Structure
@@ -69,9 +57,10 @@ Then open **http://localhost:5173** in your browser.
 ```
 WebBasedGamingLibrary/
 ├── backend/
-│   ├── index.js          # Express API server
+│   ├── index.js          # Express API server entry point
+│   ├── routes/           # Modular API routes (games, scan, groups…)
 │   ├── scanner.js        # Smart EXE detection (trigram scoring)
-│   ├── database.js       # Simple JSON-based persistence
+│   ├── database.js       # JSON-based persistence
 │   ├── launcher.js       # Windows game launcher
 │   ├── metadata.js       # SteamGridDB integration
 │   └── data/             # ⚠️ gitignored — created at runtime
@@ -80,15 +69,17 @@ WebBasedGamingLibrary/
 ├── frontend/
 │   └── src/
 │       ├── App.jsx               # Root orchestrator
+│       ├── context/              # DialogContext (custom confirm/prompt)
 │       ├── i18n/                 # TR/EN translation system
-│       ├── hooks/useGamepad.js   # Gamepad polling hook
+│       ├── hooks/                # useAppState, useAppActions, useGamepad…
+│       ├── styles/               # Modular CSS (base, layout, cards…)
 │       └── components/
 │           ├── layout/           # TopBar, Sidebar
 │           ├── game/             # GameCard, GameGrid, GameModal
 │           ├── settings/         # SettingsModal, theme system
 │           ├── pickers/          # FolderPicker
 │           └── sgdb/             # SteamGridDB modal
-├── package.json          # Root scripts (install + run)
+├── package.json          # Root scripts (install:all, dev, build)
 ├── start.bat             # Windows one-click launcher
 └── .gitignore
 ```
@@ -105,13 +96,12 @@ WebBasedGamingLibrary/
 | **LB** | Open categories sidebar |
 | **RB** | Cycle sort order |
 | **START** | Open settings |
-| **SELECT** | Toggle search |
 
 ---
 
 ## 🎨 Theme System
 
-- Choose from 12 presets (dark & light)
+- Choose from **12 presets** (9 dark + 3 light)
 - **Custom Theme Builder**: pick any color, previews live
 - **Export** your theme as `.json`
 - **Import** a theme file shared by others
@@ -120,7 +110,7 @@ WebBasedGamingLibrary/
 
 ## ⚙️ Configuration
 
-All settings are persisted via the backend API in `backend/data/db.json`.
+All settings are persisted in `backend/data/db.json` via the API.
 
 | Setting | Description |
 |---|---|
@@ -134,13 +124,19 @@ All settings are persisted via the backend API in `backend/data/db.json`.
 ## 🛠️ Development
 
 ```bash
+# Install all dependencies
+npm run install:all
+
+# Start both servers (backend + frontend dev)
+npm run dev
+
 # Backend only
 npm run dev:backend
 
-# Frontend only  
+# Frontend only
 npm run dev:frontend
 
-# Production build
+# Production build (output to frontend/dist)
 npm run build
 ```
 

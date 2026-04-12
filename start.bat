@@ -6,10 +6,21 @@ echo  ==========================================
 echo    WEB-BASED GAMING LIBRARY  v2.0
 echo  ==========================================
 echo.
-echo  Baslatiyor... (Ctrl+C ile kapat)
+
+:: Install dependencies if node_modules missing
+if not exist "backend\node_modules" (
+    echo  Bagimliliklari yukluyor (backend)...
+    call npm install --prefix backend
+)
+if not exist "frontend\node_modules" (
+    echo  Bagimliliklari yukluyor (frontend)...
+    call npm install --prefix frontend
+)
+
+echo.
+echo  Baslatiyor... (bu pencereyi kapatmak icin Ctrl+C)
 echo.
 
-:: Root package.json üzerinden başlat
 call npm run dev
 
 echo.
