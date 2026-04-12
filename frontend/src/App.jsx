@@ -80,15 +80,22 @@ export default function App() {
 
     const pickerItemCount = folderList.length + (pickerMode === 'file' ? fileList.length : 0);
 
-    // Compute real grid column count from CSS
+    /**
+     * Compute actual column count by comparing the Y positions of rendered cards.
+     * This works regardless of CSS grid configuration or browser differences.
+     */
     const getColCount = () => {
-        if (layout !== 'grid' || !containerRef.current) return 1;
-        const grid = containerRef.current.querySelector('.game-grid');
-        if (!grid) return 1;
-        const cols = window.getComputedStyle(grid)
-            .getPropertyValue('grid-template-columns')
-            .trim().split(/\s+/).length;
-        return cols || 1;
+        if (layout === 'wide') return 1;
+        if (layout === 'ps') return 0;
+        const cards = document.querySelectorAll('[data-game-index]');
+        if (!cards || cards.length < 2) return 1;
+        const firstTop = cards[0].getBoundingClientRect().top;
+        let cols = 0;
+        for (const card of cards) {
+            if (Math.abs(card.getBoundingClientRect().top - firstTop) < 10) cols++;
+            else break;
+        }
+        return Math.max(1, cols);
     };
 
     useGamepad({

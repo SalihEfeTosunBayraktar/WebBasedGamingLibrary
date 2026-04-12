@@ -9,10 +9,10 @@ export default function GameGrid({ games, layout, focusedIndex, onOpen, onPlay, 
     const containerRef = externalRef || internalRef;
 
     React.useEffect(() => {
-        if (focusedIndex >= 0 && containerRef.current) {
+        if (layout === 'ps' && focusedIndex >= 0 && containerRef.current) {
             const children = containerRef.current.children;
             if (children[focusedIndex]) {
-                children[focusedIndex].scrollIntoView({ behavior: 'smooth', block: layout === 'ps' ? 'center' : 'nearest', inline: layout === 'ps' ? 'center' : 'nearest' });
+                children[focusedIndex].scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
             }
         }
     }, [focusedIndex, layout]);
