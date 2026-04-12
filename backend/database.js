@@ -49,6 +49,17 @@ if (fs.existsSync(dbPath)) {
     fs.writeFileSync(dbPath, JSON.stringify(data, null, 2));
 }
 
+// ── Startup migration: strip debug/scanner-internal fields from game records ──
+let migrated = false;
+(data.games || []).forEach(g => {
+    if ('_candidates' in g)    { delete g._candidates;   migrated = true; }
+    if ('rawFolderName' in g)  { delete g.rawFolderName; migrated = true; }
+});
+if (migrated) {
+    fs.writeFileSync(dbPath, JSON.stringify(data, null, 2));
+}
+
+
 function save() {
     fs.writeFileSync(dbPath, JSON.stringify(data, null, 2));
 }
