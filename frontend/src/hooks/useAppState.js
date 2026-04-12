@@ -133,8 +133,17 @@ export function useAppState() {
                 if (edgeScrollRef.current) { clearInterval(edgeScrollRef.current); edgeScrollRef.current = null; }
                 return;
             }
+            
+            // Sadece dikey olarak ortadayken ( %25 - %75 arası ) çalışsın
+            const isMiddleY = e.clientY > window.innerHeight * 0.25 && e.clientY < window.innerHeight * 0.75;
             const thr = window.innerWidth * 0.15;
-            const dir = e.clientX < thr ? -1 : e.clientX > window.innerWidth - thr ? 1 : 0;
+            
+            let dir = 0;
+            if (isMiddleY) {
+                if (e.clientX < thr) dir = -1;
+                else if (e.clientX > window.innerWidth - thr) dir = 1;
+            }
+
             if (dir !== 0 && !edgeScrollRef.current) {
                 edgeScrollRef.current = setInterval(() =>
                     setFocusedIndex(p => { const n = p + dir; return n >= 0 && n < gameCountRef.current ? n : p; }), 250);
