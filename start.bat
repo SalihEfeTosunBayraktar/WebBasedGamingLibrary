@@ -9,11 +9,11 @@ echo.
 
 :: Install dependencies if node_modules missing
 if not exist "backend\node_modules" (
-    echo  Bagimliliklari yukluyor (backend)...
+    echo  Bagimliliklari yukluyor - backend...
     call npm install --prefix backend
 )
 if not exist "frontend\node_modules" (
-    echo  Bagimliliklari yukluyor (frontend)...
+    echo  Bagimliliklari yukluyor - frontend...
     call npm install --prefix frontend
 )
 
