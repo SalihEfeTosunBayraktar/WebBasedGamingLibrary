@@ -15,4 +15,15 @@ else if (args.includes('--patch')) { v.patch++; v.build=0; }
 else { v.build++; }
 
 fs.writeFileSync(versionPath, JSON.stringify(v, null, 2));
-console.log(`\n[\x1b[32mVERSION\x1b[0m] Bumping WBGL Version to \x1b[36mv${v.major}.${v.minor}.${v.patch}.${v.build}\x1b[0m\n`);
+const newVersionStr = `${v.major}.${v.minor}.${v.patch}.${v.build}`;
+console.log(`\n[\x1b[32mVERSION\x1b[0m] Bumping WBGL Version to \x1b[36mv${newVersionStr}\x1b[0m\n`);
+
+// Auto-update start.bat
+try {
+    const batPath = path.join(__dirname, '../../start.bat');
+    let batContent = fs.readFileSync(batPath, 'utf8');
+    batContent = batContent.replace(/WEB-BASED GAMING LIBRARY\s+v[0-9.]+/g, `WEB-BASED GAMING LIBRARY  v${newVersionStr}`);
+    fs.writeFileSync(batPath, batContent);
+} catch (err) {
+    console.error("Failed to update start.bat version:", err.message);
+}
