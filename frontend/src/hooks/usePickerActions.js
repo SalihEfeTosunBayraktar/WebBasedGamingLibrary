@@ -20,14 +20,26 @@ export function usePickerActions({ state, refreshGames }) {
         setIsScanning, setIsRescanning,
     } = state;
 
-    const loadDirectory = async (pathStr, modeOverride = pickerMode) => {
+    const loadDirectory = async (pathStr, modeOverride = pickerMode, fallbackToDrive = false) => {
         setCurrentPath(pathStr);
         setPickerFocusIndex(-1);
         try {
             const res = await fetchDirectory(pathStr, modeOverride === 'file');
             setFolderList(res.folders || []);
             setFileList(res.files || []);
-        } catch { showToast(t('picker.accessDenied')); setFolderList([]); setFileList([]); }
+        } catch {
+            if (fallbackToDrive) {
+                // If initial load fails (e.g. folder deleted), fall back to drive root
+                const drivePart = pathStr.split('\\')[0] + '\\';
+                const d = await fetchDrives().catch(()=>[]);
+                if (d.includes(drivePart)) {
+                    await loadDirectory(drivePart, modeOverride, false);
+                    return;
+                }
+            }
+            showToast(t('picker.accessDenied'));
+            setFolderList([]); setFileList([]);
+        }
     };
 
     const openFolderPicker = async (mode = 'folder') => {
@@ -35,7 +47,12 @@ export function usePickerActions({ state, refreshGames }) {
         try {
             const d = await fetchDrives();
             setDrives(d);
-            await loadDirectory(uiConfig?.lastPickerPath || d[0], mode);
+            let startPath = d[0];
+            if (uiConfig?.lastPickerPath) {
+                const drivePart = uiConfig.lastPickerPath.split('\\')[0] + '\\';
+                if (d.includes(drivePart)) startPath = uiConfig.lastPickerPath;
+            }
+            await loadDirectory(startPath, mode, true);
         } catch { showToast(t('picker.drivesError')); }
     };
 
