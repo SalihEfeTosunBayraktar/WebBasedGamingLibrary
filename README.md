@@ -1,147 +1,67 @@
-# 🎮 Web-Based Gaming Library (WBGL)
-
-A self-hosted, beautiful game library manager that runs in your browser.
-Organize, launch, and discover your PC games with full gamepad support.
-
----
-
-## ✨ Features
-
-| Feature | Details |
-|---|---|
-| 🎨 **12 Themes** | 9 dark + 3 light, fully customizable with live preview |
-| 🕹️ **Gamepad Support** | Full D-Pad / stick navigation — use your controller like a console |
-| 📂 **Auto Scanner** | Scans folders, scores EXEs with trigram similarity + file size heuristics |
-| 🖼️ **SteamGridDB** | Fetch cover art and hero backgrounds directly from the internet |
-| 🌐 **i18n** | Turkish & English UI, one-click toggle |
-| 🗂️ **Categories** | Create groups, sort by name / last played / date added / random |
-| 📐 **3 Layouts** | Grid, List, Console (PS-style horizontal scroll) |
-| 🎭 **Custom Themes** | Build your own color scheme and export/import as JSON |
+<div align="center">
+  <br />
+  <img src="frontend/public/gamepad-icon.png" alt="Gamepad" width="80" height="auto" />
+  <h1>Web-Based Gaming Library (WBGL)</h1>
+  <p><strong>v2.0.x</strong> | A highly dynamic, self-hosted, fully gamepad-accessible library manager.</p>
+</div>
 
 ---
 
-## 🚀 Quick Start
+## 🌟 Overview / Proje Özeti
+Web-Based Gaming Library is an elegant, entirely local, Node.js + React.js powered game launcher. It creates a console-like interface (similar to PlayStation or Playnite) right your browser. 
 
-### Prerequisites
-- [Node.js](https://nodejs.org/) **v18 or later**
-- Windows (game launching via `.exe` requires Windows)
+No more messy desktop shortcuts! Map your folders, fetch stunning covers via the **SteamGridDB API**, and launch your games directly from your sofa using your **Gamepad** or Keyboard.
 
-### 1 — Clone
-```bash
-git clone https://github.com/Legendnoobe/WebBasedGamingLibrary.git
-cd WebBasedGamingLibrary
-```
+## ✨ Key Features / Temel Özellikler
+* **🎮 Seamless Gamepad Control:** Full navigation via Xbox/PS controllers. Supports holding `A` to quick-launch, `LB/RB` for sorting/tabbing, and uses smart axis dead-zones. 
+* **📺 Smart Background Pausing:** Browsers usually continue listening to Gamepad inputs even when minimized. WBGL uses a custom `document.hasFocus()` architecture that **completely deafens** UI inputs the second you launch a game to prevent ghost navigations in the background!
+* **🛡️ Data Loss Prevention (Atomic Saving):** During game indexing, your `db.json` database is written using tmp-atomic-saving. Even if your PC loses power during a save state, your entire game library will NOT be corrupted.
+* **🌐 SteamGridDB Integration:** A built-in image cropper and metadata downloader that automatically cleans up broken streams if your internet drops.
+* **🤖 Intelligent Automated Batch Scripts:** Built with `%~dp0` portability, run this anywhere on any PC without configuration nightmares!
 
-### 2 — Install dependencies
-```bash
-npm run install:all
-```
+## ⚙️ Installation & Usage / Kurulum ve Kullanım
 
-### 3 — Run
-```bash
-npm run dev
-```
+### 1. `start.bat` (Main Launcher)
+Simply double-click `start.bat`. 
+- **Auto-Dependency Check:** If it notices missing `node_modules`, it will automatically prompt you to install them.
+- **Bi-Lingual Memory:** On the very first launch, it will ask for your language preference (EN/TR) and save it to a hidden `.lang_pref` file. It will never ask you again unless you delete that file!
 
-Then open **http://localhost:5173** in your browser.
+### 2. `update.bat` (Auto-Updater)
+Pulls the latest code from GitHub safely without overriding your game covers or `db.json` file.
+- Checks if `Git` is installed. If not, it automatically downloads and installs Git via **Microsoft Winget** natively in the command line!
+- Automatically increments semantic versioning UI elements upon build.
 
-> **Backend API** runs on port **3001**.  
-> **Frontend dev server** runs on port **5173**.
-
-### Windows one-click launcher
-Double-click **`start.bat`** — installs and starts everything automatically.
-
----
-
-## 📁 Project Structure
-
-```
-WebBasedGamingLibrary/
-├── backend/
-│   ├── index.js          # Express API server entry point
-│   ├── routes/           # Modular API routes (games, scan, groups…)
-│   ├── scanner.js        # Smart EXE detection (trigram scoring)
-│   ├── database.js       # JSON-based persistence
-│   ├── launcher.js       # Windows game launcher
-│   ├── metadata.js       # SteamGridDB integration
-│   └── data/             # ⚠️ gitignored — created at runtime
-│       ├── db.json
-│       └── covers/
-├── frontend/
-│   └── src/
-│       ├── App.jsx               # Root orchestrator
-│       ├── context/              # DialogContext (custom confirm/prompt)
-│       ├── i18n/                 # TR/EN translation system
-│       ├── hooks/                # useAppState, useAppActions, useGamepad…
-│       ├── styles/               # Modular CSS (base, layout, cards…)
-│       └── components/
-│           ├── layout/           # TopBar, Sidebar
-│           ├── game/             # GameCard, GameGrid, GameModal
-│           ├── settings/         # SettingsModal, theme system
-│           ├── pickers/          # FolderPicker
-│           └── sgdb/             # SteamGridDB modal
-├── package.json          # Root scripts (install:all, dev, build)
-├── start.bat             # Windows one-click launcher
-└── .gitignore
-```
+### 3. `autostart_setup.bat` (Start with Windows)
+Click to automatically run the library when your computer turns on.
+- Deploys a programmatic VBScript that writes an exact-path `.lnk` directly into Windows Startup.
+- Enforces `WindowStyle = 7`, meaning the server console boots up magically **minimized** to the taskbar instead of popping a black screen in your face at startup.
 
 ---
 
-## 🎮 Gamepad Controls
+## 🕹️ Control Scheme / Kontrol Şeması
 
-| Button | Action |
-|---|---|
-| **Left Stick / D-Pad** | Navigate games |
-| **A (Cross)** | Play focused game |
-| **Y (Triangle)** | Open game details |
-| **LB** | Open categories sidebar |
-| **RB** | Cycle sort order |
-| **START** | Open settings |
+| Action | Gamepad (Controller) | Keyboard |
+| :--- | :--- | :--- |
+| **Navigate** | Left Stick / D-Pad | Arrows |
+| **Open Details** | `A` Button (Short press) | `Enter` |
+| **Quick Play / Launch** | `A` Button (Hold 600ms) | Hold `Enter` |
+| **Back / Close Modal** | `B` Button | `Escape` |
+| **Search / Context Menu** | `X` Button | - |
+| **Options Modal** | `Y` Button | - |
+| **Toggle Sidebar**| `LB` (Left Bumper) | `Q` |
+| **Change Sorting / Tabs** | `RB` (Right Bumper) | `E` |
 
----
-
-## 🎨 Theme System
-
-- Choose from **12 presets** (9 dark + 3 light)
-- **Custom Theme Builder**: pick any color, previews live
-- **Export** your theme as `.json`
-- **Import** a theme file shared by others
+*(UI buttons dynamically format themselves. If you turn off your controller, the UI bottom-bar will instantly swap out the Gamepad button names for their Keyboard counterparts!)*
 
 ---
 
-## ⚙️ Configuration
-
-All settings are persisted in `backend/data/db.json` via the API.
-
-| Setting | Description |
-|---|---|
-| Scan Folders | Folders auto-scanned for games |
-| Ignored EXEs | Keywords to skip during scan (e.g. `unins, setup, redist`) |
-| SteamGridDB API Key | Get yours free at [steamgriddb.com](https://www.steamgriddb.com/profile/preferences/api) |
-| Theme & Font | Fully customizable via Settings → Appearance |
+## 🛠️ Tech Stack / Altyapı
+* **Frontend:** React (Vite), Lucide-React
+* **Backend:** Node.js, Express, Axios (API requests), Child Process (Spawning exe)
+* **Scripts:** ES Modules, Advanced Delayed-Expansion Windows Batch scripting.
+* **Version Handling:** Automatic 4-digit build bumping logic built deeply into `npm run build`.
 
 ---
-
-## 🛠️ Development
-
-```bash
-# Install all dependencies
-npm run install:all
-
-# Start both servers (backend + frontend dev)
-npm run dev
-
-# Backend only
-npm run dev:backend
-
-# Frontend only
-npm run dev:frontend
-
-# Production build (output to frontend/dist)
-npm run build
-```
-
----
-
-## 📄 License
-
-MIT — do whatever you want with it.
+<div align="center">
+  <sub>Created by <strong>Legendnoobe</strong> | Fully portable, plug-and-play architecture.</sub>
+</div>
