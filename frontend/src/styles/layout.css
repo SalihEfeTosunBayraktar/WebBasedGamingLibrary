@@ -100,3 +100,37 @@
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   animation: toastSlide 3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
+
+/* PS Mode Bottom Hints Bar */
+.ps-bottom-bar {
+  margin: auto -32px -32px -32px;
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  padding: 20px;
+  background: var(--bg-panel);
+  border-top: 1px solid var(--border-subtle);
+  backdrop-filter: blur(10px);
+}
+
+.ps-btn-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.ps-btn-icon {
+  background: var(--accent);
+  color: var(--text-inverse, #fff);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+}

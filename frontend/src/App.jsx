@@ -186,10 +186,10 @@ export default function App() {
                     onOpen={setSelectedGame} onPlay={playGame} loading={loading} containerRef={containerRef} />
 
                 {layout === 'ps' && filteredGames.length > 0 && (
-                    <div style={{ margin: 'auto -24px -24px -24px', display:'flex', gap:'24px', justifyContent:'center', padding:'20px', background:'var(--bg-panel)', borderTop:'1px solid var(--border-subtle)', backdropFilter:'blur(10px)' }}>
+                    <div className="ps-bottom-bar">
                         {[['A',t('hints.details')],['A●',t('hints.play')],['LB',t('hints.categories')],['RB',t('hints.sorting')]].map(([btn,lbl]) => (
-                            <span key={btn} style={{ display:'flex', alignItems:'center', gap:'8px', fontSize:'13px', fontWeight:500, color:'var(--text-main)' }}>
-                                <span style={{ background:'var(--accent)', color:'#fff', borderRadius:'50%', width:'24px', height:'24px', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'12px', fontWeight:800 }}>{btn}</span>
+                            <span key={btn} className="ps-btn-hint">
+                                <span className="ps-btn-icon">{btn}</span>
                                 {lbl}
                             </span>
                         ))}
