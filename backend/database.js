@@ -61,7 +61,13 @@ if (migrated) {
 
 
 function save() {
-    fs.writeFileSync(dbPath, JSON.stringify(data, null, 2));
+    const tmpPath = dbPath + '.tmp';
+    try {
+        fs.writeFileSync(tmpPath, JSON.stringify(data, null, 2));
+        fs.renameSync(tmpPath, dbPath);
+    } catch (err) {
+        console.error("Atomic save failed:", err);
+    }
 }
 
 module.exports = {

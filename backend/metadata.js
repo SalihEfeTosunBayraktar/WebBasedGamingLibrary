@@ -39,9 +39,14 @@ async function downloadCover(url) {
             const writer = fs.createWriteStream(dest);
             response.data.pipe(writer);
             writer.on('finish', () => resolve(filename));
-            writer.on('error', reject);
+            writer.on('error', (err) => {
+                writer.close();
+                if (fs.existsSync(dest)) fs.unlinkSync(dest);
+                reject(err);
+            });
         });
     } catch (e) {
+        if (fs.existsSync(dest)) fs.unlinkSync(dest);
         console.error(`Failed to download cover from ${url}:`, e.message);
         return null;
     }

@@ -10,17 +10,7 @@ import { useKeyboard } from './hooks/useKeyboard.js';
 import { useAppState, SORT_OPTIONS_MAPPING, resetRandomSeed } from './hooks/useAppState.js';
 import { useAppActions } from './hooks/useAppActions.js';
 
-import { ImageCropper } from './ImageCropper.jsx';
-import { COVERS_BASE } from './api/api.js';
-
-import TopBar from './components/layout/TopBar.jsx';
-import Sidebar from './components/layout/Sidebar.jsx';
-import HeroBackground from './components/layout/HeroBackground.jsx';
-import GameGrid from './components/game/GameGrid.jsx';
-import GameModal from './components/game/GameModal.jsx';
-import SettingsModal from './components/settings/SettingsModal.jsx';
-import FolderPicker from './components/pickers/FolderPicker.jsx';
-import SgdbModal from './components/sgdb/SgdbModal.jsx';
+import AppLayout from './components/layout/AppLayout.jsx';
 
 const SETTINGS_TABS = ['appearance', 'scanning', 'api', 'general'];
 
@@ -156,53 +146,17 @@ export default function App() {
     useGamepad(navCallbacks);
     useKeyboard(navCallbacks);
 
-    const focusedHero = useMemo(() => {
-        const g = filteredGames[focusedIndex];
-        if (!g) return 'none';
-        if (g.hero)  return `url('${COVERS_BASE}/${g.hero}')`;
-        if (g.cover) return `url('${COVERS_BASE}/${g.cover}')`;
-        return 'none';
-    }, [filteredGames, focusedIndex]);
+    useEffect(() => {
+        if (state.layout === 'ps' || state.hasModal()) return;
+        const el = document.querySelector(`[data-game-index="${state.focusedIndex}"]`);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, [state.focusedIndex, state.layout]);
 
-    return (
-        <div className="app-container">
-            {layout === 'ps' && <HeroBackground src={focusedHero} />}
+    useEffect(() => {
+        if (state.uiConfig) {
+            state.applyUiConfig(state.uiConfig);
+        }
+    }, [state.uiConfig]);
 
-            <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)}
-                groups={groups} games={games} activeGroupId={activeGroupId}
-                setActiveGroupId={setActiveGroupId} focusIndex={sidebarFocusIndex}
-                onAddGroup={addGroup} onDeleteGroup={removeGroup} sidebarRef={sidebarRef} />
-
-            <div className="main-content" style={{ display: layout==='ps'?'flex':'block', flexDirection:'column' }}>
-                <TopBar layout={layout} setLayout={setLayout} isScanning={isScanning}
-                    isRescanning={isRescanning} isFullscreen={isFullscreen}
-                    sortKey={sortKey} setSortKey={sk => { resetRandomSeed(); setSortKey(sk); }}
-                    searchQuery={searchQuery} setSearchQuery={setSearchQuery}
-                    onOpenSidebar={() => setIsSidebarOpen(true)} onOpenSettings={openSettings}
-                    onOpenFolderPicker={openFolderPicker} onRescanAll={handleRescanAll}
-                    onToggleFullscreen={toggleFullscreen} uiConfig={uiConfig} />
-
-                <GameGrid games={filteredGames} layout={layout} focusedIndex={focusedIndex}
-                    onOpen={setSelectedGame} onPlay={playGame} loading={loading} containerRef={containerRef} />
-
-                {layout === 'ps' && filteredGames.length > 0 && (
-                    <div className="ps-bottom-bar">
-                        {[['A',t('hints.details')],['A●',t('hints.play')],['LB',t('hints.categories')],['RB',t('hints.sorting')]].map(([btn,lbl]) => (
-                            <span key={btn} className="ps-btn-hint">
-                                <span className="ps-btn-icon">{btn}</span>
-                                {lbl}
-                            </span>
-                        ))}
-                    </div>
-                )}
-            </div>
-
-            {showFolderPicker && <FolderPicker pickerMode={pickerMode} drives={drives} currentPath={currentPath} setCurrentPath={setCurrentPath} folders={folderList} files={fileList} onClose={() => setShowFolderPicker(false)} onConfirmFolder={handleConfirmFolder} onFileSelect={handleFileSelect} onLoadDirectory={loadDirectory} onNavigateUp={navigateUp} gpFocusIndex={pickerFocusIndex} />}
-            {showSettings && uiConfig && <SettingsModal uiConfig={uiConfig} setUiConfig={setUiConfig} scanFolders={scanFolders} onSave={saveSettings} onClose={() => setShowSettings(false)} onRemoveScanFolder={handleRemoveScanFolder} onOpenFolderPicker={openFolderPicker} applyUiConfig={applyUiConfig} activeTab={settingsTab} setActiveTab={setSettingsTab} />}
-            {selectedGame && !showSgdb && !cropTarget && <GameModal game={selectedGame} groups={groups} onClose={() => setSelectedGame(null)} onPlay={playGame} onDelete={removeGame} onSave={p => saveGameEdits(selectedGame.id, p)} onOpenSgdb={() => setShowSgdb(true)} onImageFileSelect={handleImageFileSelect} />}
-            {showSgdb && selectedGame && <SgdbModal game={selectedGame} onClose={() => setShowSgdb(false)} onSearch={handleSgdbSearch} onApply={handleSgdbAction} loading={sgdbLoading} />}
-            {cropTarget && <ImageCropper image={cropTarget.dataUrl} aspect={cropTarget.type==='cover'?2/3:16/9} onCancel={() => setCropTarget(null)} onCropDone={handleCropDone} />}
-            {toast && <div className="toast">{toast}</div>}
-        </div>
-    );
+    return <AppLayout state={state} actions={{ ...actions, resetRandomSeed }} />;
 }
