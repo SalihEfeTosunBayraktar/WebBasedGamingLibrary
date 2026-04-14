@@ -1,7 +1,6 @@
 <div align="center">
   <br />
-  <img src="frontend/public/gamepad-icon.png" alt="Gamepad" width="80" height="auto" />
-  <h1>Web-Based Gaming Library (WBGL)</h1>
+  <h1>🎮 Web-Based Gaming Library (WBGL)</h1>
   <p><strong>v2.0.x</strong> | A highly dynamic, self-hosted, fully gamepad-accessible library manager.</p>
 </div>
 
