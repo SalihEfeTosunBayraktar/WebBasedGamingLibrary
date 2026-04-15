@@ -17,7 +17,7 @@ if exist ".lang_pref" (
 )
 
 echo  ==========================================
-echo    WEB-BASED GAMING LIBRARY  v2.0.0.10
+echo    WEB-BASED GAMING LIBRARY  v2.0.0.18
 echo  ==========================================
 
 if "%LANG_SEL%"=="2" (

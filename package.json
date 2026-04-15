@@ -16,5 +16,9 @@
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "png-to-ico": "^3.0.1",
+    "rcedit": "^5.0.2"
   }
 }

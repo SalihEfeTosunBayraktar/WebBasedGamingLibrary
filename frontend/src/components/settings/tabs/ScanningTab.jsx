@@ -9,7 +9,7 @@ export default function ScanningTab({ uiConfig, onConfigChange, scanFolders, onR
         <>
             <Section title={t('scanning.foldersTitle')} desc={t('scanning.foldersDesc')}>
                 {scanFolders.length === 0 ? (
-                    <div style={{ padding: '16px', background: 'rgba(255,255,255,0.04)', borderRadius: '10px', textAlign: 'center', color: 'var(--text-muted)', fontSize: '13px' }}>
+                    <div style={{ padding: '16px', background: 'var(--bg-input)', borderRadius: '10px', textAlign: 'center', color: 'var(--text-muted)', fontSize: '13px', border: '1px solid var(--border-subtle)' }}>
                         {t('scanning.noFolders')}
                     </div>
                 ) : (
@@ -19,7 +19,7 @@ export default function ScanningTab({ uiConfig, onConfigChange, scanFolders, onR
                         ))}
                     </div>
                 )}
-                <button className="btn" style={{ marginTop: '10px', background: 'rgba(255,255,255,0.04)' }} onClick={() => onOpenFolderPicker('folder')}>
+                <button className="btn" style={{ marginTop: '10px', background: 'var(--bg-input)', border: '1px solid var(--border-subtle)' }} onClick={() => onOpenFolderPicker('folder')}>
                     <FolderPlus size={15} /> {t('scanning.addFolder')}
                 </button>
             </Section>
@@ -39,7 +39,7 @@ export default function ScanningTab({ uiConfig, onConfigChange, scanFolders, onR
 
 function FolderRow({ path, onRemove }) {
     return (
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.04)', padding: '10px 14px', borderRadius: '10px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg-input)', padding: '10px 14px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
             <span style={{ fontSize: '12px', fontFamily: 'monospace', color: 'var(--text-muted)' }}>{path}</span>
             <button className="btn" style={{ padding: '5px 10px', background: 'rgba(255,71,87,0.15)', color: '#ff4757', border: 'none', fontSize: '12px' }} onClick={onRemove}>
                 <Trash2 size={13} />

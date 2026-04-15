@@ -21,19 +21,19 @@
 
 .modal-close {
   position: absolute; top: 20px; right: 20px;
-  background: rgba(0,0,0,0.5);
+  background: var(--overlay-bg);
   border-radius: 50%; width: 40px; height: 40px;
   display: flex; align-items: center; justify-content: center;
-  color: white; z-index: 10; transition: background 0.2s;
+  color: var(--text-main); z-index: 10; transition: background 0.2s;
 }
-.modal-close:hover { background: rgba(255,255,255,0.2); }
+.modal-close:hover { background: var(--border-base); }
 
 .game-detail-cover  { width: 35%; object-fit: cover; }
 
 .game-detail-info {
   flex: 1; padding: 40px;
   display: flex; flex-direction: column;
-  background: rgba(20,22,30,0.95);
+  background: var(--bg-surface);
   overflow-y: auto;
 }
 

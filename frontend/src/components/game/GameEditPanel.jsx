@@ -56,14 +56,14 @@ function FieldRow({ id, label, value, onChange }) {
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
             <strong style={{ width: '76px', fontSize: '11px', color: 'var(--text-muted)', flexShrink: 0 }}>{label}:</strong>
             <input id={id} value={value} onChange={onChange}
-                style={{ flex: 1, padding: '7px 10px', fontFamily: 'monospace', fontSize: '12px', borderRadius: '6px', background: 'rgba(255,255,255,0.04)', border: 'none' }} />
+                style={{ flex: 1, padding: '7px 10px', fontFamily: 'monospace', fontSize: '12px', borderRadius: '6px', background: 'var(--bg-input)', border: 'none', color: 'var(--text-main)' }} />
         </div>
     );
 }
 
 function ImageUploadCard({ icon, title, desc, btnClass, btnLabel, onChange }) {
     return (
-        <div style={{ background: 'rgba(255,255,255,0.04)', padding: '14px', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
+        <div style={{ background: 'var(--bg-input)', padding: '14px', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', border: '1px solid var(--border-subtle)' }}>
             {icon}
             <h4 style={{ margin: 0, fontSize: '12px' }}>{title}</h4>
             <p style={{ fontSize: '10px', color: 'var(--text-muted)', textAlign: 'center', margin: 0 }}>{desc}</p>

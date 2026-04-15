@@ -1,16 +1,21 @@
 import React from 'react';
 import { Gamepad2, Folder, X } from 'lucide-react';
 import { useLocale } from '../../i18n/LocaleContext.jsx';
+import { THEMES } from '../settings/themePresets.js';
 import ver from '../../version.json';
 
-export default function Sidebar({ isOpen, onClose, groups, games, activeGroupId, setActiveGroupId, focusIndex, onAddGroup, onDeleteGroup, sidebarRef }) {
+export default function Sidebar({ isOpen, onClose, groups, games, activeGroupId, setActiveGroupId, focusIndex, onAddGroup, onDeleteGroup, sidebarRef, uiConfig }) {
     const { t } = useLocale();
+    // Determine if light theme: check _theme key against THEMES, or fall back to uiConfig.light flag
+    const activeTheme = THEMES.find(th => th.key === uiConfig?._theme);
+    const isLight = activeTheme?.light === true || uiConfig?.light === true;
+    const logoSrc = isLight ? '/logo-light.png' : '/logo.png';
     return (
         <>
             <div className={`sidebar-overlay ${isOpen ? 'open' : ''}`} onClick={onClose} />
             <div className={`collapsible-sidebar glass ${isOpen ? 'open' : ''}`}>
                 <div className="brand" style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <img src="/logo.png" alt="WBGL Logo" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />
+                    <img src={logoSrc} alt="WBGL Logo" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />
                     <span style={{ fontWeight: 800 }}>{t('sidebar.title')}</span>
                 </div>
 

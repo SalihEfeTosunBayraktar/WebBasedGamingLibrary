@@ -52,7 +52,8 @@ export default function AppLayout({ state, actions }) {
             <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)}
                 groups={groups} games={games} activeGroupId={activeGroupId}
                 setActiveGroupId={setActiveGroupId} focusIndex={sidebarFocusIndex}
-                onAddGroup={addGroup} onDeleteGroup={removeGroup} sidebarRef={sidebarRef} />
+                onAddGroup={addGroup} onDeleteGroup={removeGroup} sidebarRef={sidebarRef}
+                uiConfig={uiConfig} />
 
             <div className="main-content" style={{ display: layout === 'ps' ? 'flex' : 'block', flexDirection: 'column' }}>
                 <TopBar layout={layout} setLayout={setLayout} isScanning={isScanning}

@@ -17,7 +17,7 @@ export default function GameViewPanel({ game, groups, onEdit, onPlay, onDelete, 
                 </button>
             </div>
 
-            <div style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.9', background: 'rgba(0,0,0,0.2)', padding: '14px 16px', borderRadius: '12px', marginTop: '12px', marginBottom: '28px' }}>
+            <div style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.9', background: 'var(--bg-panel)', padding: '14px 16px', borderRadius: '12px', marginTop: '12px', marginBottom: '28px', border: '1px solid var(--border-subtle)' }}>
                 <InfoRow label={t('gameView.path')}      value={game.path} />
                 <InfoRow label={t('gameView.file')}      value={game.exe} />
                 <InfoRow label={t('gameView.group')}     value={groupName} />
@@ -29,10 +29,10 @@ export default function GameViewPanel({ game, groups, onEdit, onPlay, onDelete, 
                 <button id="btn-play-game" className="btn btn-play" style={{ flex: 1, fontSize: '16px', padding: '14px' }} onClick={() => onPlay(game.id)}>
                     <Play fill="currentColor" size={22} /> {t('gameView.play')}
                 </button>
-                <button className="btn" style={{ background: 'rgba(107,76,255,0.25)', color: '#fff', border: '1px solid rgba(107,76,255,0.4)' }} onClick={onSgdbOpen}>
+                <button className="btn" style={{ background: 'var(--bg-input)', color: 'var(--accent)', border: '1px solid var(--border-subtle)' }} onClick={onSgdbOpen}>
                     <Search size={16} /> {t('gameView.webCover')}
                 </button>
-                <button className="btn" style={{ background: 'rgba(255,71,87,0.15)', color: '#ff4757', border: '1px solid rgba(255,71,87,0.3)' }} onClick={onDelete}>
+                <button className="btn" style={{ background: 'rgba(255,71,87,0.10)', color: 'var(--danger)', border: '1px solid rgba(255,71,87,0.3)' }} onClick={onDelete}>
                     {t('gameView.remove')}
                 </button>
             </div>

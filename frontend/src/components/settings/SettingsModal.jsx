@@ -38,7 +38,7 @@ export default function SettingsModal({
 
     const handleThemeSelect = (theme) => {
         const colorValues = theme.values ?? theme;
-        const merged = { ...uiConfig, ...colorValues, _theme: theme.key };
+        const merged = { ...uiConfig, ...colorValues, _theme: theme.key, light: !!theme.light };
         setUiConfig(merged);
         applyUiConfig(merged);
         setActiveThemeKey(theme.key);

@@ -8,7 +8,7 @@ export default function Section({ title, desc, children }) {
                 color: 'var(--accent)',
                 marginBottom: desc ? '6px' : '14px',
                 paddingBottom: '8px',
-                borderBottom: '1px solid rgba(255,255,255,0.06)',
+                borderBottom: '1px solid var(--border-subtle)',
                 fontSize: '14px',
             }}>
                 {title}

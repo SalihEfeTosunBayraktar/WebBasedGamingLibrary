@@ -77,7 +77,7 @@ select {
   outline: none;
   cursor: pointer;
 }
-select option { background: #1a1c28; color: var(--text-main); }
+select option { background: var(--bg-surface, #1a1c28); color: var(--text-main); }
 
 /* Button reset */
 button { font-family: inherit; border: none; cursor: pointer; outline: none; }
