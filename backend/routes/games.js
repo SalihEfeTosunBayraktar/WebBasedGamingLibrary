@@ -9,8 +9,11 @@ const { downloadCover } = require('../metadata');
 const router = express.Router();
 const generateId = () => Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
 
+const IS_COMPILED = !!process.pkg;
+const ROOT_DIR = IS_COMPILED ? path.dirname(process.execPath) : path.join(__dirname, '..');
+
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, path.join(__dirname, '../data/covers')),
+    destination: (req, file, cb) => cb(null, path.join(ROOT_DIR, 'data', 'covers')),
     filename: (req, file, cb) => cb(null, generateId() + path.extname(file.originalname)),
 });
 const upload = multer({ storage });
