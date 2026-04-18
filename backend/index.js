@@ -44,8 +44,14 @@ app.listen(PORT, () => {
     console.log(`Backend running on http://localhost:${PORT}`);
 
     if (IS_COMPILED) {
-        require('child_process').exec(`start http://localhost:${PORT}`);
-        console.log(`Opening browser directly to http://localhost:${PORT}...`);
+        console.log(`İlk açılış: Chrome App olarak http://localhost:${PORT} başlatılıyor...`);
+        const { exec } = require('child_process');
+        exec(`start chrome --app=http://localhost:${PORT}`, (err) => {
+            if (err) {
+                console.warn('Chrome uygulaması başlatılamadı, varsayılan tarayıcı deneniyor...');
+                exec(`start http://localhost:${PORT}`);
+            }
+        });
     }
 
     // Auto-scan saved folders in background (non-blocking)

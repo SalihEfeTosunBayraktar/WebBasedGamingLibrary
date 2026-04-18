@@ -69,27 +69,17 @@ export function useGamepad(callbacks, setIsConnected) {
             }
           };
 
-          const A_HOLD_MS = 600;
-
-          // ── A button: short press = select/details, hold = quick launch ────────
+          // ── A button: direct launch ──────────────────────────────────────────
           const isAPressed = isPressed(BUTTONS.A);
           if (isAPressed && !lastState.current['A']) {
               lastState.current['A'] = true;
-              lastState.current['aPressSince'] = Date.now();
-              lastState.current['aHeld'] = false;
-          }
-          if (isAPressed && lastState.current['A'] && !lastState.current['aHeld']) {
-              if (Date.now() - (lastState.current['aPressSince'] || 0) >= A_HOLD_MS) {
-                  lastState.current['aHeld'] = true;
-                  cbRef.current['onHoldA']?.();
-              }
+              cbRef.current['onHoldA']?.();   // Play immediately on press
           }
           if (!isAPressed && lastState.current['A']) {
               lastState.current['A'] = false;
-              if (!lastState.current['aHeld']) cbRef.current['onSelect']?.();
-              lastState.current['aHeld'] = false;
           }
 
+          // ── Y button: open details ───────────────────────────────────────────
           fire('B',          'onBack');
           fire('Y',          'onOptions');
           fire('X',          'onX');

@@ -173,6 +173,7 @@ const en = {
     toast: {
         launching: 'Launching game…',
         launchFail: 'Failed to launch.',
+        driveNotFound: 'Drive "{drive}" is not connected!',
         removed: 'Removed.',
         removeFail: 'Error.',
         updated: 'Updated!',

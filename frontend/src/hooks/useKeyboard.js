@@ -4,12 +4,12 @@
  * App.jsx can pass identical handlers to both inputs without duplication.
  *
  * Bindings:
- *   ArrowUp/Down/Left/Right  → onUp / onDown / onLeft / onRight
- *   Enter                    → onSelect  (open details)
- *   Space                    → onHoldA   (quick launch / confirm)
- *   Escape                   → onBack
- *   F                        → onStart   (settings / fullscreen via onStart)
- *   [ / ]                    → onLB / onRB
+ *   ArrowUp/Down/Left/Right / W/A/S/D  → onUp / onDown / onLeft / onRight
+ *   Enter                              → onHoldA   (quick launch)
+ *   F                                  → onSelect  (open details panel)
+ *   Escape                             → onBack
+ *   Q                                  → onLB  (categories)
+ *   E                                  → onRB  (sorting)
  */
 import { useEffect, useRef } from 'react';
 
@@ -18,15 +18,36 @@ const KEY_MAP = {
     ArrowDown:  'onDown',
     ArrowLeft:  'onLeft',
     ArrowRight: 'onRight',
-    Enter:      'onSelect',
-    ' ':        'onHoldA',
+    w:          'onUp',
+    W:          'onUp',
+    s:          'onDown',
+    S:          'onDown',
+    a:          'onLeft',
+    A:          'onLeft',
+    d:          'onRight',
+    D:          'onRight',
+    ' ':        'onHoldA',   // Direct launch
+    f:          'onSelect',  // Open detail panel
+    F:          'onSelect',
     Escape:     'onBack',
-    '[':        'onLB',
-    ']':        'onRB',
+    q:          'onLB',      // Categories
+    Q:          'onLB',
+    e:          'onRB',      // Sorting
+    E:          'onRB',
 };
 
-// Keys that should NOT trigger when focus is on an input/textarea
-const INPUT_BLOCKLIST = new Set(['ArrowUp', 'ArrowDown', ' ', 'Enter', 'Escape']);
+/** Returns true when the user is actively typing in a text field */
+function isTypingInInput() {
+    const el = document.activeElement;
+    if (!el) return false;
+    const tag = el.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true;
+    if (el.isContentEditable) return true;
+    return false;
+}
+
+// Keys that must not fire when typing (letter keys would interfere with text input)
+const LETTER_KEYS = new Set(['w','W','s','S','a','A','d','D','q','Q','e','E','i','I']);
 
 export function useKeyboard(callbacks) {
     const cbRef = useRef(callbacks);
@@ -34,16 +55,13 @@ export function useKeyboard(callbacks) {
 
     useEffect(() => {
         const onKeyDown = (e) => {
-            const tag = document.activeElement?.tagName;
-            const isInput = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
-
-            // Let inputs handle their own keys (except Escape which still closes modals)
-            if (isInput && INPUT_BLOCKLIST.has(e.key) && e.key !== 'Escape') return;
+            // Block ALL keys if user is typing in a real input field
+            if (isTypingInInput() && e.key !== 'Escape') return;
 
             const cbName = KEY_MAP[e.key];
             if (!cbName) return;
 
-            // Prevent default browser scroll for arrow keys and space
+            // Prevent default browser scroll for arrow keys
             if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '].includes(e.key)) {
                 e.preventDefault();
             }

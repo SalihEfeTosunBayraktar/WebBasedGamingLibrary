@@ -173,6 +173,7 @@ const tr = {
     toast: {
         launching: 'Oyun açılıyor…',
         launchFail: 'Başlatılamadı.',
+        driveNotFound: '"{drive}" diski takılı değil!',
         removed: 'Kaldırıldı.',
         removeFail: 'Hata.',
         updated: 'Güncellendi!',

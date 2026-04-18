@@ -75,13 +75,15 @@ router.post('/:id/launch', (req, res) => {
     const game = db.getDb().games.find(g => g.id === req.params.id);
     if (!game) return res.status(404).json({ error: 'Game not found' });
 
-    const success = launchGame(game.path, game.exe);
-    if (success) {
+    const result = launchGame(game.path, game.exe);
+    if (result.ok) {
         game.lastPlayed = new Date().toISOString();
         db.save();
         res.json({ success: true });
+    } else if (result.reason === 'drive_not_found') {
+        res.status(503).json({ error: 'drive_not_found', drive: result.drive });
     } else {
-        res.status(500).json({ error: 'Failed to launch' });
+        res.status(500).json({ error: result.reason || 'launch_failed' });
     }
 });
 

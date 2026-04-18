@@ -40,7 +40,14 @@ export function useAppActions({ state }) {
     const playGame = async (id) => {
         showToast(t('toast.launching'));
         try { await apiLaunchGame(id); }
-        catch { showToast(t('toast.launchFail')); }
+        catch (err) {
+            const data = err?.response?.data;
+            if (data?.error === 'drive_not_found' && data?.drive) {
+                showToast(t('toast.driveNotFound').replace('{drive}', data.drive));
+            } else {
+                showToast(t('toast.launchFail'));
+            }
+        }
     };
 
     const removeGame = async (id) => {
